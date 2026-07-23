@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FESTIVAL BUNGA DAN BUAH KAB. KARO 2026 — FUN RUN 5K</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth}
+
+:root{
+    --flower-pink:#ff6b9d;
+    --flower-rose:#c44569;
+    --fruit-orange:#ff8a00;
+    --fruit-yellow:#ffd700;
+    --fruit-green:#4caf50;
+    --leaf-green:#2e7d32;
+    --sky-blue:#00b4d8;
+    --violet:#7c3aed;
+    --dark:#0a0a1a;
+    --glass:rgba(255,255,255,.07);
+    --glass2:rgba(255,255,255,.12);
+    --border:rgba(255,255,255,.1);
+    --border2:rgba(255,255,255,.18);
+}
+
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--dark)}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--flower-pink),var(--fruit-yellow));border-radius:10px}
+
+body{font-family:'Poppins',sans-serif;background:var(--dark);color:white;overflow-x:hidden}
+
+/* ========== INIT LOADER ========== */
+.init-loader{
+    position:fixed;inset:0;z-index:9999;background:var(--dark);
+    display:flex;justify-content:center;align-items:center;flex-direction:column;
+    transition:opacity 1s,visibility 1s;
+}
+.init-loader.hidden{opacity:0;visibility:hidden}
+.init-ring{
+    width:80px;height:80px;border-radius:50%;border:4px solid transparent;
+    border-top:4px solid var(--flower-pink);border-right:4px solid var(--fruit-yellow);
+    border-bottom:4px solid var(--violet);animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.init-text{
+    margin-top:20px;font-family:'Orbitron',sans-serif;font-size:14px;
+    letter-spacing:4px;color:var(--fruit-yellow);animation:pulse 1.5s ease infinite;
+}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ========== REGISTRATION LOADING ========== */
+.reg-overlay{
+    position:fixed;inset:0;z-index:9998;
+    background:rgba(10,10,26,.95);backdrop-filter:blur(40px);
+    display:none;justify-content:center;align-items:center;flex-direction:column;
+    opacity:0;transition:opacity .5s;
+}
+.reg-overlay.active{display:flex;opacity:1}
+.reg-content{text-align:center;max-width:420px;width:100%}
+.reg-spinner{
+    width:60px;height:60px;border-radius:50%;
+    border:3px solid rgba(255,255,255,.08);
+    border-top:3px solid var(--flower-pink);border-right:3px solid var(--fruit-yellow);
+    animation:spin .8s linear infinite;margin:0 auto 25px;
+}
+.reg-title{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:800;letter-spacing:4px;color:var(--fruit-yellow);margin-bottom:8px}
+.reg-subtitle{font-size:13px;color:rgba(255,255,255,.45);letter-spacing:2px;margin-bottom:30px}
+.reg-bar-wrap{width:280px;height:5px;background:rgba(255,255,255,.08);border-radius:10px;overflow:hidden;margin:0 auto}
+.reg-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--flower-pink),var(--fruit-yellow),var(--violet));border-radius:10px;transition:width .1s linear}
+.reg-percent{margin-top:18px;font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;color:var(--fruit-yellow)}
+.reg-steps{margin-top:15px;font-size:12px;color:rgba(255,255,255,.4);letter-spacing:1px;min-height:20px}
+
+/* ========== VIDEO BG ========== */
+.video-bg{
+    position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-3;
+    filter:brightness(.65) contrast(1.1) saturate(1.4);
+}
+.overlay{
+    position:fixed;inset:0;
+    background:
+    linear-gradient(to bottom,rgba(10,10,26,.12),rgba(10,10,26,.40)),
+    radial-gradient(ellipse at top left,rgba(255,107,157,.12),transparent 50%),
+    radial-gradient(ellipse at top right,rgba(255,138,0,.10),transparent 50%),
+    radial-gradient(ellipse at bottom center,rgba(124,58,237,.10),transparent 50%);
+    z-index:-2;pointer-events:none;
+}
+.noise{
+    position:fixed;inset:0;z-index:-1.5;opacity:.03;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:128px 128px;
+}
+
+/* ========== PARTICLES ========== */
+.particles{position:fixed;inset:0;overflow:hidden;z-index:-1;pointer-events:none}
+.particles span{
+    position:absolute;border-radius:50%;opacity:.35;
+    animation:floatUp var(--dur) linear infinite;animation-delay:var(--delay);
+    left:var(--x);width:var(--size);height:var(--size);
+    background:var(--color);filter:blur(var(--blur));
+}
+@keyframes floatUp{
+    0%{transform:translateY(100vh) scale(0) rotate(0deg)}
+    50%{opacity:.7}
+    100%{transform:translateY(-10vh) scale(1.5) rotate(180deg)}
+}
+
+/* ========== NAVBAR ========== */
+.navbar{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:15px 40px;display:flex;justify-content:space-between;align-items:center;
+    background:rgba(10,10,26,.6);backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);transition:.5s;
+}
+.navbar.scrolled{padding:10px 40px;background:rgba(10,10,26,.85)}
+.nav-brand-wrap{display:flex;align-items:center;gap:8px}
+.nav-brand-img{height:35px;filter:drop-shadow(0 0 8px rgba(255,138,0,.3))}
+.nav-brand{
+    font-family:'Orbitron',sans-serif;font-weight:800;font-size:18px;
+    background:linear-gradient(135deg,var(--flower-pink),var(--fruit-yellow));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.nav-links{display:flex;gap:25px;list-style:none}
+.nav-links a{
+    color:rgba(255,255,255,.7);text-decoration:none;font-weight:500;
+    font-size:13px;letter-spacing:1px;transition:.3s;position:relative;
+}
+.nav-links a::after{
+    content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;
+    background:linear-gradient(90deg,var(--flower-pink),var(--fruit-yellow));transition:.3s;
+}
+.nav-links a:hover{color:var(--fruit-yellow)}
+.nav-links a:hover::after{width:100%}
+
+/* ========== HERO ========== */
+.hero{
+    min-height:100vh;display:flex;justify-content:center;align-items:center;
+    text-align:center;padding:120px 20px 80px;position:relative;
+}
+.hero-content{max-width:1000px}
+.hero-content .anim{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+.hero-content .anim.visible{opacity:1;transform:translateY(0)}
+
+.hero-festival{
+    font-size:22px;font-weight:600;letter-spacing:3px;
+    color:var(--fruit-yellow);margin-bottom:5px;
+    text-transform:uppercase;
+}
+.hero-kab{
+    font-size:16px;font-weight:400;letter-spacing:4px;
+    color:rgba(255,255,255,.5);margin-bottom:25px;
+}
+
+.hero-logo-img{
+    width:110px;margin-bottom:20px;
+    filter:drop-shadow(0 0 25px rgba(255,107,157,.4));
+    animation:floatLogo 5s ease-in-out infinite;
+}
+@keyframes floatLogo{
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    25%{transform:translateY(-12px) rotate(2deg)}
+    75%{transform:translateY(8px) rotate(-2deg)}
+}
+
+.hero-title{
+    font-size:100px;font-family:'Orbitron',sans-serif;font-weight:900;line-height:1;
+    background:linear-gradient(135deg,var(--flower-pink) 0%,var(--fruit-orange) 50%,var(--violet) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    position:relative;
+}
+.hero-title::after{
+    content:'FUN RUN';position:absolute;inset:0;
+    background:linear-gradient(135deg,var(--flower-pink) 0%,var(--fruit-orange) 50%,var(--violet) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    filter:blur(35px);opacity:.5;z-index:-1;
+}
+
+.hero-distance{
+    font-size:40px;font-family:'Orbitron',sans-serif;font-weight:800;
+    background:linear-gradient(135deg,var(--fruit-yellow),var(--fruit-orange));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    margin-top:10px;letter-spacing:6px;
+}
+
+.hero-desc{
+    margin-top:25px;font-size:19px;line-height:1.8;
+    color:rgba(255,255,255,.8);font-weight:300;letter-spacing:1px;
+}
+
+.hero-badge{margin-top:35px;display:flex;justify-content:center;flex-wrap:wrap;gap:16px}
+.badge{
+    padding:14px 28px;border-radius:50px;background:var(--glass);
+    border:1px solid var(--border2);backdrop-filter:blur(15px);
+    font-weight:600;font-size:14px;letter-spacing:1.5px;
+    box-shadow:0 0 20px rgba(255,107,157,.10),inset 0 0 20px rgba(255,138,0,.03);
+    transition:.4s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden;
+}
+.badge::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,rgba(255,107,157,.15),rgba(255,138,0,.15));opacity:0;transition:.4s;
+}
+.badge:hover{transform:translateY(-6px) scale(1.05);border-color:var(--flower-pink);box-shadow:0 0 30px rgba(255,107,157,.3)}
+.badge:hover::before{opacity:1}
+.badge-yellow{border-color:rgba(255,215,0,.3);box-shadow:0 0 20px rgba(255,215,0,.10)}
+.badge-yellow:hover{border-color:var(--fruit-yellow);box-shadow:0 0 30px rgba(255,215,0,.3)}
+.badge-yellow::before{background:linear-gradient(135deg,rgba(255,215,0,.15),rgba(255,138,0,.15))}
+.badge-green{border-color:rgba(76,175,80,.3);box-shadow:0 0 20px rgba(76,175,80,.10)}
+.badge-green:hover{border-color:var(--fruit-green);box-shadow:0 0 30px rgba(76,175,80,.3)}
+.badge-green::before{background:linear-gradient(135deg,rgba(76,175,80,.15),transparent)}
+
+.hero-buttons{margin-top:45px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.hero-btn{
+    padding:18px 44px;border-radius:50px;text-decoration:none;font-weight:700;
+    transition:.4s cubic-bezier(.16,1,.3,1);letter-spacing:2px;font-size:14px;
+    position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:10px;cursor:pointer;
+}
+.btn-primary{
+    background:linear-gradient(135deg,var(--flower-pink),var(--fruit-orange));
+    color:white;box-shadow:0 8px 30px rgba(255,107,157,.35);
+}
+.btn-primary::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,var(--fruit-yellow),var(--violet));opacity:0;transition:.4s;
+}
+.btn-primary:hover{transform:translateY(-6px) scale(1.05);box-shadow:0 12px 40px rgba(255,138,0,.4)}
+.btn-primary:hover::before{opacity:1}
+
+.btn-secondary{
+    border:1px solid var(--border2);background:var(--glass);backdrop-filter:blur(12px);
+    color:white;box-shadow:0 4px 20px rgba(0,0,0,.2);
+}
+.btn-secondary:hover{background:var(--glass2);transform:translateY(-6px);border-color:rgba(255,255,255,.3);box-shadow:0 8px 30px rgba(255,107,157,.15)}
+
+.btn-green{
+    background:linear-gradient(135deg,var(--fruit-green),var(--leaf-green));
+    color:white;box-shadow:0 8px 30px rgba(76,175,80,.3);font-weight:800;
+}
+.btn-green:hover{transform:translateY(-6px) scale(1.05);box-shadow:0 12px 40px rgba(76,175,80,.5)}
+
+.scroll-indicator{
+    position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+    display:flex;flex-direction:column;align-items:center;gap:8px;
+    opacity:.5;animation:scrollBounce 2s ease infinite;
+}
+.scroll-indicator span{font-size:12px;letter-spacing:3px;font-weight:500}
+.scroll-indicator i{font-size:20px;color:var(--fruit-yellow)}
+@keyframes scrollBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+
+/* ========== SECTION ========== */
+section{padding:120px 20px;position:relative}
+.section-header{text-align:center;margin-bottom:70px}
+.section-title{
+    font-size:48px;font-family:'Orbitron',sans-serif;font-weight:800;
+    background:linear-gradient(135deg,#fff 0%,var(--fruit-yellow) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1;
+}
+.section-line{
+    width:80px;height:3px;margin:20px auto 0;
+    background:linear-gradient(90deg,var(--flower-pink),var(--fruit-yellow),var(--violet));
+    border-radius:10px;
+}
+.section-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:linear-gradient(135deg,rgba(255,107,157,.15),rgba(255,215,0,.15));
+    border:1px solid rgba(255,215,0,.2);padding:8px 18px;border-radius:50px;
+    font-size:12px;font-weight:700;letter-spacing:2px;color:var(--fruit-yellow);
+    margin-bottom:20px;
+}
+
+.reveal{opacity:0;transform:translateY(50px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ========== ABOUT ========== */
+.about-container{
+    max-width:1000px;margin:auto;background:var(--glass);border:1px solid var(--border);
+    border-radius:40px;backdrop-filter:blur(20px);padding:60px;
+    box-shadow:0 0 60px rgba(255,107,157,.06),inset 0 1px 0 rgba(255,255,255,.1);
+    position:relative;overflow:hidden;
+}
+.about-container::before{content:'';position:absolute;top:-50%;right:-50%;width:100%;height:100%;background:radial-gradient(circle,rgba(255,107,157,.06),transparent 60%);pointer-events:none}
+.about-container::after{content:'';position:absolute;bottom:-50%;left:-50%;width:100%;height:100%;background:radial-gradient(circle,rgba(255,215,0,.06),transparent 60%);pointer-events:none}
+.about-text{line-height:2;font-size:17px;text-align:center;color:rgba(255,255,255,.8);margin-bottom:20px;font-weight:300;position:relative;z-index:1}
+.about-text:last-child{margin-bottom:0}
+
+.about-stats{display:flex;justify-content:center;gap:35px;margin-top:45px;flex-wrap:wrap;position:relative;z-index:1}
+.about-stat{text-align:center;padding:25px 20px}
+.about-stat .stat-icon{font-size:36px;color:var(--fruit-yellow);margin-bottom:10px}
+.about-stat .stat-number{font-family:'Orbitron',sans-serif;font-size:26px;font-weight:800;color:var(--flower-pink)}
+.about-stat .stat-label{font-size:12px;letter-spacing:2px;color:rgba(255,255,255,.5);margin-top:5px}
+
+/* ========== COUNTDOWN ========== */
+.countdown{display:flex;justify-content:center;gap:25px;flex-wrap:wrap}
+.time-box{
+    width:170px;height:170px;border-radius:28px;background:var(--glass);
+    border:1px solid var(--border);backdrop-filter:blur(20px);
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    transition:.5s cubic-bezier(.16,1,.3,1);
+    box-shadow:0 0 40px rgba(255,107,157,.10),inset 0 1px 0 rgba(255,255,255,.1);
+    position:relative;overflow:hidden;
+}
+.time-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--flower-pink),var(--fruit-yellow),var(--violet));border-radius:28px 28px 0 0}
+.time-box:hover{transform:translateY(-12px) scale(1.05);border-color:var(--flower-pink);box-shadow:0 0 60px rgba(255,107,157,.3)}
+.time-box h1{font-size:58px;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--fruit-yellow);line-height:1}
+.time-box p{margin-top:8px;letter-spacing:3px;font-size:12px;font-weight:600;color:rgba(255,255,255,.5)}
+
+/* ========== INFO ========== */
+.info-grid{max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px}
+.info-card{
+    background:var(--glass);border-radius:35px;border:1px solid var(--border);
+    backdrop-filter:blur(20px);padding:50px 40px;
+    transition:.5s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
+}
+.info-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(to bottom,var(--flower-pink),var(--fruit-yellow));border-radius:35px 0 0 35px}
+.info-card:hover{transform:translateY(-10px);border-color:rgba(255,107,157,.3);box-shadow:0 0 50px rgba(255,107,157,.15),inset 0 1px 0 rgba(255,255,255,.1)}
+.info-card .card-icon{font-size:40px;color:var(--fruit-yellow);margin-bottom:20px}
+.info-card h2{color:var(--fruit-yellow);margin-bottom:18px;font-size:26px;font-family:'Orbitron',sans-serif;font-weight:700}
+.info-card p{line-height:2;color:rgba(255,255,255,.75);font-weight:300}
+
+/* ========== PRIZE ========== */
+.prize-grid{max-width:1200px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:35px}
+.prize-card{
+    background:var(--glass);border:1px solid var(--border);border-radius:35px;
+    backdrop-filter:blur(20px);padding:45px;position:relative;overflow:hidden;
+    box-shadow:0 0 50px rgba(255,107,157,.08),inset 0 1px 0 rgba(255,255,255,.1);
+}
+.prize-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:35px 35px 0 0}
+.prize-card.putra::before{background:linear-gradient(90deg,var(--sky-blue),var(--violet))}
+.prize-card.putri::before{background:linear-gradient(90deg,var(--flower-pink),var(--flower-rose))}
+.prize-card-title{
+    font-family:'Orbitron',sans-serif;font-size:28px;font-weight:800;
+    margin-bottom:30px;display:flex;align-items:center;gap:12px;
+}
+.prize-card.putra .prize-card-title{color:var(--sky-blue)}
+.prize-card.putri .prize-card-title{color:var(--flower-pink)}
+.prize-card-title i{font-size:24px}
+
+.prize-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 0;border-bottom:1px solid rgba(255,255,255,.06);
+}
+.prize-row:last-child{border-bottom:none}
+.prize-rank{font-size:16px;font-weight:700;letter-spacing:1px;display:flex;align-items:center;gap:10px}
+.prize-rank .rank-icon{font-size:22px}
+.prize-card.putra .prize-rank{color:var(--sky-blue)}
+.prize-card.putri .prize-rank{color:var(--flower-pink)}
+.prize-amount{
+    font-family:'Orbitron',sans-serif;font-size:22px;font-weight:900;
+    background:linear-gradient(135deg,var(--fruit-yellow),var(--fruit-orange));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+
+/* ========== REGISTRATION ========== */
+.reg-card{
+    max-width:800px;margin:auto;background:var(--glass);border:1px solid var(--border);
+    border-radius:40px;backdrop-filter:blur(20px);padding:50px;
+    text-align:center;position:relative;overflow:hidden;
+    box-shadow:0 0 60px rgba(255,215,0,.08),inset 0 1px 0 rgba(255,255,255,.1);
+}
+.reg-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--flower-pink),var(--fruit-yellow),var(--violet),var(--fruit-green));border-radius:40px 40px 0 0}
+
+.reg-fee{
+    font-family:'Orbitron',sans-serif;font-size:52px;font-weight:900;
+    background:linear-gradient(135deg,var(--fruit-yellow),var(--fruit-orange));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    margin-bottom:10px;line-height:1;
+}
+.reg-fee-label{font-size:14px;letter-spacing:3px;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:25px}
+
+.reg-benefits{
+    display:flex;justify-content:center;gap:25px;flex-wrap:wrap;margin-bottom:30px;
+}
+.reg-benefit{
+    padding:15px 25px;border-radius:20px;
+    background:linear-gradient(135deg,rgba(255,107,157,.12),rgba(255,215,0,.12));
+    border:1px solid rgba(255,215,0,.2);font-weight:600;font-size:14px;
+    letter-spacing:1px;display:flex;align-items:center;gap:8px;
+}
+.reg-benefit i{color:var(--fruit-yellow)}
+
+.reg-btn{
+    padding:22px 60px;border-radius:50px;text-decoration:none;
+    background:linear-gradient(135deg,var(--flower-pink),var(--fruit-orange),var(--violet));
+    color:white;font-weight:800;letter-spacing:3px;font-size:16px;
+    display:inline-flex;align-items:center;gap:12px;
+    transition:.4s cubic-bezier(.16,1,.3,1);cursor:pointer;
+    box-shadow:0 10px 40px rgba(255,107,157,.3);
+}
+.reg-btn:hover{transform:translateY(-8px) scale(1.05);box-shadow:0 15px 50px rgba(255,215,0,.5)}
+
+/* ========== CTA ========== */
+.cta-section{text-align:center;padding:100px 20px;position:relative}
+.cta-box{
+    max-width:800px;margin:auto;
+    background:linear-gradient(135deg,rgba(255,107,157,.1),rgba(255,215,0,.1));
+    border:1px solid rgba(255,215,0,.2);border-radius:40px;
+    backdrop-filter:blur(20px);padding:60px;
+    box-shadow:0 0 60px rgba(255,107,157,.10);
+}
+.cta-box h2{font-family:'Orbitron',sans-serif;font-size:32px;font-weight:800;margin-bottom:20px}
+.cta-box p{color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:35px;font-weight:300}
+.cta-btn{
+    padding:20px 50px;border-radius:50px;text-decoration:none;
+    background:linear-gradient(135deg,var(--fruit-yellow),var(--fruit-orange));
+    color:var(--dark);font-weight:800;letter-spacing:2px;font-size:15px;
+    display:inline-flex;align-items:center;gap:12px;
+    transition:.4s cubic-bezier(.16,1,.3,1);cursor:pointer;
+    box-shadow:0 8px 30px rgba(255,215,0,.3);
+}
+.cta-btn:hover{transform:translateY(-8px) scale(1.05);box-shadow:0 12px 40px rgba(255,215,0,.5)}
+
+/* ========== FOOTER ========== */
+footer{
+    padding:80px 20px 40px;text-align:center;
+    background:rgba(10,10,26,.4);backdrop-filter:blur(12px);
+    border-top:1px solid var(--border);position:relative;
+}
+footer::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--flower-pink),var(--fruit-yellow),var(--violet),var(--fruit-green))}
+.footer-logo{
+    font-size:30px;font-family:'Orbitron',sans-serif;font-weight:800;
+    background:linear-gradient(135deg,var(--flower-pink),var(--fruit-yellow));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:20px;
+}
+footer p{max-width:700px;margin:auto;line-height:1.9;color:rgba(255,255,255,.5);font-weight:300}
+.footer-social{display:flex;justify-content:center;gap:20px;margin-top:30px}
+.footer-social a{
+    width:50px;height:50px;border-radius:50%;background:var(--glass);border:1px solid var(--border);
+    display:flex;justify-content:center;align-items:center;color:rgba(255,255,255,.6);font-size:20px;transition:.4s;
+}
+.footer-social a:hover{background:var(--fruit-yellow);color:var(--dark);transform:translateY(-5px);box-shadow:0 8px 25px rgba(255,215,0,.3)}
+.footer-bottom{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);font-size:13px;color:rgba(255,255,255,.3);letter-spacing:1px}
+
+/* ========== DECORATIVE ========== */
+.deco-line{position:absolute;width:1px;height:100%;top:0;background:linear-gradient(to bottom,transparent,var(--flower-pink),transparent);opacity:.06}
+.deco-line:nth-child(1){left:10%}.deco-line:nth-child(2){left:30%}.deco-line:nth-child(3){left:50%}.deco-line:nth-child(4){left:70%}.deco-line:nth-child(5){left:90%}
+
+.flower-deco{
+    position:absolute;font-size:40px;opacity:.15;
+    animation:floatFlower 8s ease-in-out infinite;
+}
+@keyframes floatFlower{
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    50%{transform:translateY(-20px) rotate(15deg)}
+}
+
+@media(max-width:768px){
+    .navbar{padding:12px 20px}.nav-links{display:none}
+    .hero-title{font-size:58px}.hero-distance{font-size:28px}
+    .hero-festival{font-size:16px}.hero-kab{font-size:12px}
+    .hero-logo-img{width:80px}.hero-desc{font-size:16px}
+    .section-title{font-size:32px}.about-container{padding:40px 25px;border-radius:25px}
+    .about-text{font-size:15px}.about-stats{gap:20px}
+    .time-box{width:130px;height:130px;border-radius:20px}.time-box h1{font-size:38px}.time-box p{font-size:10px}
+    .info-card{padding:35px 25px;border-radius:25px}.info-card h2{font-size:20px}
+    .hero-buttons{flex-direction:column;align-items:center}.hero-btn{width:100%;max-width:320px}
+    .prize-grid{grid-template-columns:1fr}.badge{padding:10px 20px;font-size:12px}
+    .cta-box{padding:40px 25px}.cta-box h2{font-size:24px}
+    .scroll-indicator{display:none}
+    .reg-card{padding:35px 25px;border-radius:25px}.reg-fee{font-size:36px}
+    .prize-amount{font-size:18px}
+}
+@media(max-width:480px){
+    .hero-title{font-size:42px}.hero-distance{font-size:22px}
+    .section-title{font-size:26px}.time-box{width:110px;height:110px}.time-box h1{font-size:30px}
+    .reg-fee{font-size:28px}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- INIT LOADER -->
+<div class="init-loader" id="initLoader">
+<div class="init-ring"></div>
+<div class="init-text">FESTIVAL BUNGA DAN BUAH KARO</div>
+</div>
+
+<!-- REG LOADING -->
+<div class="reg-overlay" id="regOverlay">
+<div class="reg-content">
+<div class="reg-spinner"></div>
+<div class="reg-title">FESTIVAL BUNGA DAN BUAH KARO</div>
+<div class="reg-subtitle">FUN RUN 5K PUTRA PUTRI</div>
+<div class="reg-bar-wrap"><div class="reg-bar" id="regBar"></div></div>
+<div class="reg-percent" id="regPercent">0%</div>
+<div class="reg-steps" id="regSteps">Memverifikasi data...</div>
+</div>
+</div>
+
+<!-- VIDEO BACKGROUND -->
+<video autoplay muted loop playsinline class="video-bg">
+<source src="video.mp4" type="video/mp4">
+</video>
+<div class="overlay"></div>
+<div class="noise"></div>
+
+<div class="deco-line"></div><div class="deco-line"></div><div class="deco-line"></div><div class="deco-line"></div><div class="deco-line"></div>
+
+<!-- FLOWER DECORATIONS -->
+<div class="flower-deco" style="top:15%;left:3%;animation-delay:0s">🌸</div>
+<div class="flower-deco" style="top:45%;right:3%;animation-delay:2s">🌺</div>
+<div class="flower-deco" style="top:70%;left:5%;animation-delay:4s">🌼</div>
+<div class="flower-deco" style="top:25%;right:5%;animation-delay:1s">🌷</div>
+<div class="flower-deco" style="bottom:20%;left:8%;animation-delay:3s">🍊</div>
+<div class="flower-deco" style="bottom:35%;right:8%;animation-delay:5s">🍎</div>
+
+<!-- PARTICLES -->
+<div class="particles">
+<span style="--x:5%;--dur:14s;--delay:0s;--size:4px;--color:#ff6b9d;--blur:0px"></span>
+<span style="--x:12%;--dur:18s;--delay:2s;--size:5px;--color:#ffd700;--blur:1px"></span>
+<span style="--x:20%;--dur:16s;--delay:4s;--size:3px;--color:#7c3aed;--blur:0px"></span>
+<span style="--x:28%;--dur:20s;--delay:1s;--size:4px;--color:#ff8a00;--blur:1px"></span>
+<span style="--x:35%;--dur:14s;--delay:5s;--size:3px;--color:#4caf50;--blur:0px"></span>
+<span style="--x:42%;--dur:22s;--delay:3s;--size:6px;--color:white;--blur:2px"></span>
+<span style="--x:50%;--dur:15s;--delay:6s;--size:3px;--color:#ff6b9d;--blur:0px"></span>
+<span style="--x:58%;--dur:19s;--delay:2s;--size:4px;--color:#ffd700;--blur:1px"></span>
+<span style="--x:65%;--dur:13s;--delay:7s;--size:2px;--color:white;--blur:0px"></span>
+<span style="--x:72%;--dur:21s;--delay:4s;--size:5px;--color:#7c3aed;--blur:1px"></span>
+<span style="--x:80%;--dur:17s;--delay:1s;--size:3px;--color:#ff8a00;--blur:0px"></span>
+<span style="--x:88%;--dur:23s;--delay:5s;--size:4px;--color:#4caf50;--blur:1px"></span>
+<span style="--x:95%;--dur:14s;--delay:3s;--size:2px;--color:white;--blur:0px"></span>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+<div class="nav-brand-wrap">
+<img src="logo.png" class="nav-brand-img" alt="Logo">
+<div class="nav-brand">FUN RUN KARO</div>
+</div>
+<ul class="nav-links">
+<li><a href="#about">About</a></li><li><a href="#countdown">Countdown</a></li>
+<li><a href="#info">Info</a></li><li><a href="#prize">Prize</a></li>
+<li><a href="#register">Register</a></li>
+</ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+<div class="hero-content">
+
+<div class="hero-festival anim" data-delay="0">
+FESTIVAL BUNGA DAN BUAH
+</div>
+<div class="hero-kab anim" data-delay="100">
+KABUPATEN KARO 2026
+</div>
+
+<img src="logo.png" class="hero-logo-img anim" data-delay="200" alt="Logo">
+
+<div class="hero-title anim" data-delay="400">
+FUN RUN
+</div>
+
+<div class="hero-distance anim" data-delay="500">
+5K PUTRA PUTRI
+</div>
+
+<p class="hero-desc anim" data-delay="600">
+Berlari bersama di tengah keindahan bunga dan buah Kabupaten Karo!<br>
+Festival, Sport, dan Nature — satu pengalaman yang tak terlupakan.
+</p>
+
+<div class="hero-badge anim" data-delay="800">
+<div class="badge">5K PUTRA</div>
+<div class="badge badge-yellow">5K PUTRI</div>
+<div class="badge badge-green">31 JULI 2026</div>
+<div class="badge badge-yellow">Rp 100.000</div>
+</div>
+
+<div class="hero-buttons anim" data-delay="1000">
+<a href="#register" class="hero-btn btn-primary"><i class="fas fa-running"></i> DAFTAR SEKARANG</a>
+<a href="#about" class="hero-btn btn-secondary"><i class="fas fa-info-circle"></i> LIHAT EVENT</a>
+</div>
+
+</div>
+<div class="scroll-indicator"><span>SCROLL</span><i class="fas fa-chevron-down"></i></div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+<div class="section-header reveal">
+<div class="section-badge"><i class="fas fa-seedling"></i> FESTIVAL BUNGA DAN BUAH KAB. KARO</div>
+<h1 class="section-title">ABOUT THE EVENT</h1>
+<div class="section-line"></div>
+</div>
+
+<div class="about-container reveal">
+<p class="about-text">
+FUN RUN 5K PUTRA PUTRI hadir sebagai bagian dari <b style="color:var(--fruit-yellow)">FESTIVAL BUNGA DAN BUAH KABUPATEN KARO 2026</b> — sebuah event lari yang menggabungkan semangat olahraga dengan keindahan alam dan kultur Karo.
+</p>
+<p class="about-text">
+Diselenggarakan pada <b style="color:var(--flower-pink)">31 Juli 2026</b>, event ini menawarkan pengalaman berlari 5 kilometer di tengah panorama bunga dan buah khas Karo — mulai dari tanaman hias, buah-buahan subtropis, hingga kuliner lokal yang memukau.
+</p>
+<p class="about-text">
+Terbuka untuk semua kalangan — putra dan putri, pemula hingga pelari reguler. Dengan biaya pendaftaran hanya <b style="color:var(--fruit-yellow)">Rp 100.000</b> peserta sudah mendapatkan <b style="color:var(--fruit-green)">Jersey + Medali</b> eksklusif, serta berkesempatan memenangkan hadiah total <b style="color:var(--flower-pink)">Rp 8.500.000</b>!
+</p>
+</div>
+
+<div class="about-stats reveal">
+<div class="about-stat"><div class="stat-icon"><i class="fas fa-road"></i></div><div class="stat-number">5K</div><div class="stat-label">DISTANCE</div></div>
+<div class="about-stat"><div class="stat-icon"><i class="fas fa-calendar-alt"></i></div><div class="stat-number">31 JUL</div><div class="stat-label">DATE</div></div>
+<div class="about-stat"><div class="stat-icon"><i class="fas fa-map-marker-alt"></i></div><div class="stat-number">KARO</div><div class="stat-label">LOCATION</div></div>
+<div class="about-stat"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-number">PUTRA PUTRI</div><div class="stat-label">CATEGORY</div></div>
+<div class="about-stat"><div class="stat-icon"><i class="fas fa-trophy"></i></div><div class="stat-number">8.5M</div><div class="stat-label">TOTAL PRIZE</div></div>
+</div>
+</section>
+
+<!-- ===== COUNTDOWN ===== -->
+<section id="countdown">
+<div class="section-header reveal">
+<h1 class="section-title">COUNTDOWN EVENT</h1>
+<div class="section-line"></div>
+</div>
+<div class="countdown reveal">
+<div class="time-box"><h1 id="days">00</h1><p>DAYS</p></div>
+<div class="time-box"><h1 id="hours">00</h1><p>HOURS</p></div>
+<div class="time-box"><h1 id="minutes">00</h1><p>MINUTES</p></div>
+<div class="time-box"><h1 id="seconds">00</h1><p>SECONDS</p></div>
+</div>
+</section>
+
+<!-- ===== EVENT INFO ===== -->
+<section id="info">
+<div class="section-header reveal">
+<h1 class="section-title">EVENT INFORMATION</h1>
+<div class="section-line"></div>
+</div>
+<div class="info-grid">
+<div class="info-card reveal"><div class="card-icon"><i class="fas fa-map-marker-alt"></i></div><h2>Location</h2><p>Kabupaten Karo<br>Sumatera Utara</p></div>
+<div class="info-card reveal"><div class="card-icon"><i class="fas fa-calendar-alt"></i></div><h2>Date</h2><p>31 Juli 2026</p></div>
+<div class="info-card reveal"><div class="card-icon"><i class="fas fa-running"></i></div><h2>Category</h2><p>5K Putra<br>5K Putri</p></div>
+<div class="info-card reveal"><div class="card-icon"><i class="fas fa-money-bill-wave"></i></div><h2>Registration</h2><p>Rp 100.000<br>Termasuk Jersey + Medali</p></div>
+</div>
+</section>
+
+<!-- ===== PRIZE ===== -->
+<section id="prize">
+<div class="section-header reveal">
+<div class="section-badge"><i class="fas fa-trophy"></i> TOTAL HADIAH Rp 8.500.000</div>
+<h1 class="section-title">PRIZE POOL</h1>
+<div class="section-line"></div>
+</div>
+
+<div class="prize-grid">
+<div class="prize-card putra reveal">
+<div class="prize-card-title"><i class="fas fa-mars"></i> PUTRA (MALE)</div>
+<div class="prize-row">
+<div class="prize-rank"><span class="rank-icon">🥇</span> Juara 1</div>
+<div class="prize-amount">Rp 2.500.000</div>
+</div>
+<div class="prize-row">
+<div class="prize-rank"><span class="rank-icon">🥈</span> Juara 2</div>
+<div class="prize-amount">Rp 2.000.000</div>
+</div>
+<div class="prize-row">
+<div class="prize-rank"><span class="rank-icon">🥉</span> Juara 3</div>
+<div class="prize-amount">Rp 1.000.000</div>
+</div>
+</div>
+
+<div class="prize-card putri reveal">
+<div class="prize-card-title"><i class="fas fa-venus"></i> PUTRI (FEMALE)</div>
+<div class="prize-row">
+<div class="prize-rank"><span class="rank-icon">🥇</span> Juara 1</div>
+<div class="prize-amount">Rp 2.500.000</div>
+</div>
+<div class="prize-row">
+<div class="prize-rank"><span class="rank-icon">🥈</span> Juara 2</div>
+<div class="prize-amount">Rp 2.000.000</div>
+</div>
+<div class="prize-row">
+<div class="prize-rank"><span class="rank-icon">🥉</span> Juara 3</div>
+<div class="prize-amount">Rp 1.000.000</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ===== REGISTER ===== -->
+<section id="register">
+<div class="section-header reveal">
+<h1 class="section-title">REGISTRATION</h1>
+<div class="section-line"></div>
+</div>
+
+<div class="reg-card reveal">
+<div class="section-badge"><i class="fas fa-running"></i> 5K PUTRA PUTRI</div>
+<div class="reg-fee">Rp 100.000</div>
+<div class="reg-fee-label">BIAYA PENDAFTARAN PER PESERTA</div>
+
+<div class="reg-benefits">
+<div class="reg-benefit"><i class="fas fa-tshirt"></i> Jersey</div>
+<div class="reg-benefit"><i class="fas fa-medal"></i> Medali</div>
+<div class="reg-benefit"><i class="fas fa-tag"></i> BIB Number</div>
+<div class="reg-benefit"><i class="fas fa-shield-alt"></i> Insurance</div>
+</div>
+
+<p style="color:rgba(255,255,255,.6);font-size:14px;line-height:1.8;margin-bottom:30px">
+Pendaftaran termasuk Jersey eksklusif + Medali finisher. Hadiah total Rp 8.500.000 untuk Putra & Putri!
+</p>
+
+<a href="javascript:void(0)" class="reg-btn" onclick="startRegLoading()">
+<i class="fas fa-arrow-right"></i> DAFTAR SEKARANG
+</a>
+</div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+<div class="cta-box reveal">
+<h2>SAATNYA BERLARI DI<br>TENGAH BUNGA DAN BUAH KARO!</h2>
+<p>Jangan sampai kelewat! Daftar sekarang dan nikmati pengalaman berlari 5K di tengah Festival Bunga dan Buah Kabupaten Karo 2026.</p>
+<a href="javascript:void(0)" class="cta-btn" onclick="startRegLoading()">
+<i class="fas fa-running"></i> DAFTAR SEKARANG
+</a>
+</div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+<div class="footer-logo">FESTIVAL BUNGA DAN BUAH KAB. KARO 2026</div>
+<p>FUN RUN 5K Putra Putri — 31 Juli 2026<br>Run With Flowers. Run With Fruits. Run With Passion.</p>
+<div class="footer-social">
+<a href="#"><i class="fab fa-instagram"></i></a>
+<a href="#"><i class="fab fa-facebook"></i></a>
+<a href="#"><i class="fab fa-twitter"></i></a>
+<a href="#"><i class="fab fa-youtube"></i></a>
+</div>
+<div class="footer-bottom">© 2026 Festival Bunga dan Buah Kab. Karo — FUN RUN 5K Putra Putri</div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+
+/* INIT LOADER */
+window.addEventListener('load',function(){setTimeout(function(){document.getElementById('initLoader').classList.add('hidden')},1800)});
+
+/* REG LOADING (3 sec → form.html) */
+function startRegLoading(){
+    var overlay=document.getElementById('regOverlay');
+    var bar=document.getElementById('regBar');
+    var percent=document.getElementById('regPercent');
+    var steps=document.getElementById('regSteps');
+    overlay.classList.add('active');bar.style.width='0%';
+
+    var msgs=['Memverifikasi data...','Menghubungkan ke server...','Memproses pendaftaran...','Mengkonfirmasi ketersediaan...','Menyiapkan halaman form...','Redirecting...'];
+    var cur=0;var sT=setInterval(function(){cur++;if(cur<msgs.length){steps.textContent=msgs[cur]}},500);
+
+    var p=0;var dur=3000;var ms=30;var inc=(ms/dur)*100;
+    var pT=setInterval(function(){
+        p+=inc;if(p>100)p=100;bar.style.width=p+'%';percent.textContent=Math.round(p)+'%';
+        if(p>=100){clearInterval(pT);clearInterval(sT);steps.textContent='Redirecting...';
+        setTimeout(function(){window.location.href='form.html'},300)}
+    },ms);
+}
+
+/* COUNTDOWN */
+var targetDate=new Date("July 31, 2026 00:00:00").getTime();
+var cd=setInterval(function(){
+    var now=new Date().getTime();var d=targetDate-now;
+    document.getElementById("days").innerHTML=Math.floor(d/(1000*60*60*24));
+    document.getElementById("hours").innerHTML=Math.floor((d%(1000*60*60*24))/(1000*60*60));
+    document.getElementById("minutes").innerHTML=Math.floor((d%(1000*60*60))/(1000*60));
+    document.getElementById("seconds").innerHTML=Math.floor((d%(1000*60))/1000);
+    if(d<0){clearInterval(cd);document.querySelector(".countdown").innerHTML="<h1 style='font-family:Orbitron;font-size:40px;color:var(--fruit-yellow)'>EVENT STARTED!</h1>"}
+},1000);
+
+/* NAVBAR */
+window.addEventListener('scroll',function(){var n=document.getElementById('navbar');if(window.scrollY>80){n.classList.add('scrolled')}else{n.classList.remove('scrolled')}});
+
+/* HERO ANIM */
+document.addEventListener('DOMContentLoaded',function(){
+    var a=document.querySelectorAll('.hero-content .anim');
+    a.forEach(function(e){var d=parseInt(e.getAttribute('data-delay'))||0;setTimeout(function(){e.classList.add('visible')},d+1800)});
+});
+
+/* REVEAL */
+var rE=document.querySelectorAll('.reveal');
+var rO=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting){en.target.classList.add('visible')}})},{threshold:.15,rootMargin:'0px 0px -50px 0px'});
+rE.forEach(function(e){rO.observe(e)});
+
+/* PARALLAX */
+document.addEventListener('mousemove',function(e){
+    var x=e.clientX/window.innerWidth;var y=e.clientY/window.innerHeight;
+    document.querySelector('.overlay').style.transform='translate('+x*4+'px,'+y*4+'px)';
+});
+
+</script>
+</body>
+</html>
