@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FESTIVAL BUNGA DAN BUAH KAB. KARO 2026 — FORM PENDAFTARAN</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--pink:#ff6b9d;--rose:#c44569;--orange:#ff8a00;--gold:#ffd700;--green:#4caf50;--leaf:#2e7d32;--blue:#00b4d8;--violet:#7c3aed;--dark:#0a0a1a;--glass:rgba(255,255,255,.06);--border:rgba(255,255,255,.08)}
+body{font-family:'Poppins',sans-serif;background:var(--dark);color:white;overflow-x:hidden;min-height:100vh}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--dark)}::-webkit-scrollbar-thumb{background:linear-gradient(var(--pink),var(--gold));border-radius:10px}
+
+.init-loader{position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;justify-content:center;align-items:center;flex-direction:column;transition:opacity 1s,visibility 1s}
+.init-loader.hidden{opacity:0;visibility:hidden}
+.init-ring{width:80px;height:80px;border-radius:50%;border:4px solid transparent;border-top:4px solid var(--pink);border-right:4px solid var(--gold);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.init-text{margin-top:20px;font-family:'Orbitron',sans-serif;font-size:14px;letter-spacing:4px;color:var(--gold);animation:pulse 1.5s ease infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+.confirm-overlay{position:fixed;inset:0;z-index:9998;background:rgba(10,10,26,.96);backdrop-filter:blur(40px);display:none;justify-content:center;align-items:center;flex-direction:column;opacity:0;transition:opacity .6s}
+.confirm-overlay.active{display:flex;opacity:1}
+.confirm-content{text-align:center;max-width:420px;width:100%}
+.confirm-logo{width:70px;margin-bottom:25px;filter:drop-shadow(0 0 20px rgba(255,107,157,.5));animation:floatL 3s ease-in-out infinite}
+@keyframes floatL{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.confirm-spinner{width:60px;height:60px;border-radius:50%;border:3px solid rgba(255,255,255,.08);border-top:3px solid var(--pink);border-right:3px solid var(--gold);animation:spin .8s linear infinite;margin:0 auto 25px}
+.confirm-title{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:800;letter-spacing:4px;color:var(--gold);margin-bottom:8px}
+.confirm-subtitle{font-size:13px;color:rgba(255,255,255,.45);letter-spacing:2px;margin-bottom:30px}
+.confirm-bar-wrap{width:300px;height:5px;background:rgba(255,255,255,.08);border-radius:10px;overflow:hidden;margin:0 auto}
+.confirm-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--pink),var(--gold),var(--violet));border-radius:10px;transition:width .3s linear}
+.confirm-percent{margin-top:18px;font-family:'Orbitron',sans-serif;font-size:32px;font-weight:900;color:var(--gold)}
+.confirm-steps{margin-top:15px;font-size:12px;color:rgba(255,255,255,.4);letter-spacing:1px;min-height:20px}
+.confirm-warn{margin-top:30px;padding:15px 20px;border-radius:15px;background:rgba(255,0,76,.08);border:1px solid rgba(255,0,76,.15);font-size:11px;color:rgba(255,255,255,.5);letter-spacing:1px}
+
+.fail-page{display:none;min-height:100vh;justify-content:center;align-items:center;flex-direction:column;text-align:center;padding:40px 20px;background:var(--dark)}
+.fail-icon{font-size:80px;color:#ff2e63;margin-bottom:25px}
+.fail-page h1{font-size:36px;font-family:'Orbitron',sans-serif;color:#ff2e63;margin-bottom:15px;letter-spacing:2px}
+.fail-page p{font-size:18px;color:rgba(255,255,255,.6);max-width:500px;line-height:1.7}
+.fail-btn{margin-top:30px;padding:16px 40px;border-radius:50px;background:linear-gradient(135deg,var(--gold),var(--orange));color:var(--dark);font-weight:700;font-size:14px;letter-spacing:2px;text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:.4s;box-shadow:0 8px 25px rgba(255,215,0,.25)}
+.fail-btn:hover{transform:translateY(-5px)}
+
+.step-overlay{position:fixed;inset:0;z-index:9997;background:rgba(10,10,26,.94);backdrop-filter:blur(30px);display:none;justify-content:center;align-items:center;flex-direction:column;opacity:0;transition:opacity .4s}
+.step-overlay.active{display:flex;opacity:1}
+.step-spinner{width:50px;height:50px;border-radius:50%;border:3px solid rgba(255,255,255,.08);border-top:3px solid var(--pink);border-right:3px solid var(--gold);animation:spin .8s linear infinite;margin-bottom:20px}
+.step-text{font-family:'Orbitron',sans-serif;font-size:14px;color:var(--gold);letter-spacing:3px}
+.step-bar-wrap{width:200px;height:4px;background:rgba(255,255,255,.08);border-radius:10px;overflow:hidden;margin-top:20px}
+.step-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--pink),var(--gold));border-radius:10px;transition:width .05s linear}
+
+.container{max-width:950px;margin:auto;padding:20px}
+.banner{width:100%;border-radius:35px;overflow:hidden;margin-bottom:25px;box-shadow:0 15px 50px rgba(255,107,157,.12)}
+.banner img{width:100%;display:block}
+.timer-box{background:linear-gradient(135deg,var(--pink),var(--gold));padding:16px 20px;border-radius:25px;text-align:center;font-size:22px;font-weight:800;color:white;margin-bottom:25px;box-shadow:0 8px 30px rgba(255,107,157,.25);display:flex;justify-content:center;align-items:center;gap:10px;letter-spacing:2px}
+.timer-box i{font-size:20px;opacity:.8}
+
+.card{background:var(--glass);border:1px solid var(--border);backdrop-filter:blur(20px);padding:40px;border-radius:35px;margin-bottom:25px;position:relative;overflow:hidden;box-shadow:0 10px 50px rgba(0,0,0,.15),inset 0 1px 0 rgba(255,255,255,.1);animation:fadeUp .6s cubic-bezier(.16,1,.3,1)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.section-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(255,107,157,.15),rgba(255,215,0,.15));border:1px solid rgba(255,215,0,.2);padding:8px 18px;border-radius:50px;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--gold);margin-bottom:20px}
+h2{font-size:32px;margin-bottom:25px;font-weight:900;font-family:'Orbitron',sans-serif;background:linear-gradient(135deg,#fff,var(--pink),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1}
+
+.syarat-note{background:linear-gradient(135deg,rgba(255,107,157,.12),rgba(255,215,0,.12));border:1px solid rgba(255,107,157,.2);border-radius:20px;padding:20px 25px;font-size:13px;line-height:1.9;color:rgba(255,255,255,.7);margin-bottom:30px}
+.syarat-note b{color:var(--gold)}.syarat-note i{color:var(--pink)}
+
+.input-group{margin-bottom:22px}
+label{display:block;margin-bottom:10px;font-weight:600;font-size:14px;letter-spacing:1px;color:rgba(255,255,255,.8)}
+input,textarea,select{width:100%;padding:16px 20px;border:none;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);font-size:15px;color:white;outline:none;font-family:'Poppins',sans-serif;transition:.3s}
+input:focus,textarea:focus,select:focus{background:rgba(255,255,255,.12);border-color:var(--pink);box-shadow:0 0 0 3px rgba(255,107,157,.15),0 0 20px rgba(255,107,157,.1)}
+input::placeholder,textarea::placeholder{color:rgba(255,255,255,.3)}
+select option{background:#0a0f2c;color:white}
+textarea{min-height:100px;resize:vertical}
+
+.gender{display:flex;gap:15px}
+.gender label{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);padding:16px;border-radius:18px;flex:1;text-align:center;cursor:pointer;transition:.3s;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px}
+.gender label:hover{border-color:var(--pink);background:rgba(255,107,157,.08)}
+.gender label.active-gender{border-color:var(--pink);background:rgba(255,107,157,.12);box-shadow:0 0 15px rgba(255,107,157,.15)}
+
+.buttons{display:flex;justify-content:space-between;gap:20px;margin-top:35px}
+button{border:none;padding:18px 40px;border-radius:50px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;letter-spacing:2px;transition:.4s;position:relative;overflow:hidden}
+button:hover:not(:disabled){transform:translateY(-4px)}
+button:disabled{opacity:.3;cursor:not-allowed}
+.next-btn,.pay-btn,.confirm-btn{background:linear-gradient(135deg,var(--pink),var(--orange));color:white;box-shadow:0 8px 25px rgba(255,107,157,.3)}
+.next-btn:hover:not(:disabled),.pay-btn:hover:not(:disabled),.confirm-btn:hover:not(:disabled){box-shadow:0 12px 35px rgba(255,215,0,.4);transform:translateY(-4px)}
+.back-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.6)}
+.back-btn:hover{background:rgba(255,255,255,.12);color:white}
+
+.ticket-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px;margin-bottom:30px}
+.ticket{padding:30px 25px;border-radius:30px;color:white;cursor:pointer;transition:.4s;border:3px solid transparent;text-align:center;position:relative;overflow:hidden}
+.ticket:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 15px 40px rgba(0,0,0,.3)}
+.ticket.active{border:3px solid var(--pink);transform:translateY(-8px) scale(1.03);box-shadow:0 0 40px rgba(255,107,157,.25)}
+.ticket.tputra{background:linear-gradient(135deg,var(--blue),var(--violet))}
+.ticket.tputri{background:linear-gradient(135deg,var(--pink),var(--rose))}
+.ticket-dist{font-size:48px;font-family:'Orbitron',sans-serif;font-weight:900;line-height:1}
+.ticket-cat{font-size:14px;letter-spacing:4px;font-weight:600;margin-top:5px;opacity:.8}
+.ticket-price{font-size:24px;font-weight:800;margin-top:15px;font-family:'Orbitron',sans-serif}
+
+.size-wrapper{display:flex;gap:20px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:10px}
+.size-wrapper img{width:180px;border-radius:20px;box-shadow:0 8px 25px rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.1)}
+
+.statement{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:25px;border-radius:20px;line-height:1.8;margin-top:25px}
+.checkbox{display:flex;align-items:flex-start;gap:12px;margin-top:15px}
+.checkbox input[type="checkbox"]{width:20px;height:20px;margin-top:3px;accent-color:var(--pink);flex-shrink:0;cursor:pointer}
+.checkbox label{font-size:13px;line-height:1.7;color:rgba(255,255,255,.7);cursor:pointer}
+.checkbox label b{color:var(--gold)}
+
+.payment-timer-wrap{background:linear-gradient(135deg,rgba(255,0,76,.12),rgba(200,164,21,.12));border:1px solid rgba(255,0,76,.25);border-radius:25px;padding:20px 25px;text-align:center;margin-bottom:25px}
+.payment-timer-label{font-size:12px;letter-spacing:3px;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:8px}
+.payment-timer-value{font-size:42px;font-family:'Orbitron',sans-serif;font-weight:900;color:#ff2e63;line-height:1}
+.payment-timer-warn{font-size:11px;color:rgba(255,255,255,.4);margin-top:8px;letter-spacing:1px}
+
+.qris-wrap{text-align:center;margin-bottom:25px}
+.qris-label{font-size:12px;letter-spacing:3px;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:15px}
+.qris-img{width:100%;max-width:320px;display:block;margin:auto;border-radius:25px;box-shadow:0 15px 40px rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.1)}
+
+.total-section{text-align:center;margin-bottom:30px;padding:25px;border-radius:25px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+.total-label{font-size:12px;letter-spacing:3px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:8px}
+.total-amount{font-size:48px;font-family:'Orbitron',sans-serif;font-weight:900;background:linear-gradient(135deg,var(--pink),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+
+.payment-guide{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:25px;border-radius:20px;line-height:1.9;margin-bottom:25px;font-size:13px;color:rgba(255,255,255,.65)}
+.payment-guide b{color:var(--gold)}
+
+.upload-section{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:25px;padding:25px;margin-bottom:20px}
+.upload-label{font-size:14px;font-weight:700;margin-bottom:15px;display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.8)}
+.upload-label i{color:var(--pink);font-size:18px}
+.file-input-wrap{position:relative;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:20px;cursor:pointer;transition:.3s;text-align:center}
+.file-input-wrap:hover{border-color:var(--pink);background:rgba(255,107,157,.05)}
+.file-input-wrap i{font-size:30px;color:var(--pink);margin-bottom:10px}
+.file-input-wrap .upload-text{font-size:13px;color:rgba(255,255,255,.5)}
+.file-input-wrap .upload-text b{color:var(--pink)}
+.file-input-wrap input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.file-name{margin-top:10px;font-size:12px;color:var(--pink);letter-spacing:1px;display:none}
+.file-name.show{display:block}
+.hidden{display:none!important}
+
+@media(max-width:768px){.container{padding:15px}.card{padding:25px 20px;border-radius:25px}h2{font-size:24px}.ticket-grid{grid-template-columns:1fr 1fr;gap:15px}.ticket{padding:20px 15px;border-radius:20px}.ticket-dist{font-size:36px}.ticket-price{font-size:18px}.buttons{flex-direction:column}.payment-timer-value{font-size:32px}.total-amount{font-size:36px}.size-wrapper img{width:140px}}
+@media(max-width:480px){.ticket-grid{grid-template-columns:1fr}.timer-box{font-size:16px;padding:12px 15px}}
+</style>
+</head>
+<body>
+
+<div class="init-loader" id="initLoader"><div class="init-ring"></div><div class="init-text">FUN RUN KARO 2026</div></div>
+
+<div class="confirm-overlay" id="confirmOverlay">
+<div class="confirm-content">
+<img src="logo.png" class="confirm-logo" alt="Logo">
+<div class="confirm-spinner"></div>
+<div class="confirm-title">FUN RUN 5K KARO</div>
+<div class="confirm-subtitle">FESTIVAL BUNGA DAN BUAH KAB. KARO</div>
+<div class="confirm-bar-wrap"><div class="confirm-bar" id="confirmBar"></div></div>
+<div class="confirm-percent" id="confirmPercent">0%</div>
+<div class="confirm-steps" id="confirmSteps">Memverifikasi bukti pembayaran...</div>
+<div class="confirm-warn"><i class="fas fa-exclamation-triangle"></i> JANGAN TUTUP HALAMAN INI SELAMA PROSES VERIFIKASI BERLANGSUNG</div>
+</div>
+</div>
+
+<div class="step-overlay" id="stepOverlay">
+<div class="step-spinner"></div>
+<div class="step-text" id="stepText">Loading...</div>
+<div class="step-bar-wrap"><div class="step-bar" id="stepBar"></div></div>
+</div>
+
+<div class="fail-page" id="failPage">
+<div class="fail-icon"><i class="fas fa-clock"></i></div>
+<h1>REGISTRATION FAILED</h1>
+<p>Waktu pengisian formulir telah melebihi batas 10 menit. Silahkan melakukan pendaftaran ulang.</p>
+<a href="javascript:void(0)" class="fail-btn" onclick="location.reload()"><i class="fas fa-redo"></i> PENDAFTARAN ULANG</a>
+</div>
+
+<div class="container" id="mainContainer">
+<div class="banner"><img src="banner.png" alt="Banner"></div>
+<div class="timer-box"><i class="fas fa-clock"></i> Sisa Waktu Pengisian : <span id="formTimer">10:00</span></div>
+
+<!-- PAGE 1 -->
+<div class="card" id="page1">
+<div class="section-badge"><i class="fas fa-seedling"></i> FESTIVAL BUNGA DAN BUAH KAB. KARO</div>
+<h2>DATA PESERTA</h2>
+<div class="syarat-note"><i class="fas fa-info-circle" style="color:var(--pink)"></i> Satu email / nomor HP hanya untuk satu pendaftar — pembayaran yang sudah dilakukan <b>tidak dapat dikembalikan (non-refundable)</b>.</div>
+<div class="input-group"><label><i class="fas fa-user" style="color:var(--pink);margin-right:8px"></i> Nama Lengkap</label><input type="text" id="nama" placeholder="Masukkan nama lengkap"></div>
+<div class="input-group"><label><i class="fas fa-calendar-alt" style="color:var(--pink);margin-right:8px"></i> Tempat / Tanggal Lahir</label><input type="text" id="ttl" placeholder="Contoh: Berastagi, 01 Januari 2000"></div>
+<div class="input-group"><label><i class="fas fa-venus-mars" style="color:var(--pink);margin-right:8px"></i> Jenis Kelamin</label>
+<div class="gender"><label id="genderL"><input type="radio" name="gender" value="Laki-laki" style="display:none"><span><i class="fas fa-male"></i> Laki-laki</span></label><label id="genderP"><input type="radio" name="gender" value="Perempuan" style="display:none"><span><i class="fas fa-female"></i> Perempuan</span></label></div></div>
+<div class="input-group"><label><i class="fas fa-id-card" style="color:var(--pink);margin-right:8px"></i> NIK / Kartu Pelajar</label><input type="text" id="identitas" placeholder="Masukkan NIK"></div>
+<div class="input-group"><label><i class="fas fa-envelope" style="color:var(--pink);margin-right:8px"></i> E-mail Aktif</label><input type="email" id="email" placeholder="Contoh: nama@email.com"></div>
+<div class="input-group"><label><i class="fas fa-phone" style="color:var(--pink);margin-right:8px"></i> No. WhatsApp</label><input type="text" id="wa" placeholder="Contoh: 081234567890"></div>
+<div class="input-group"><label><i class="fas fa-map-marker-alt" style="color:var(--pink);margin-right:8px"></i> Alamat Domisili</label><textarea id="alamat" placeholder="Masukkan alamat lengkap"></textarea></div>
+<div class="buttons"><div></div><button class="next-btn" id="next1" disabled><i class="fas fa-arrow-right"></i> Selanjutnya</button></div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="card hidden" id="page2">
+<div class="section-badge"><i class="fas fa-running"></i> FUN RUN 5K PUTRA PUTRI</div>
+<h2>CATEGORY PERLOMBAAN</h2>
+<div class="ticket-grid">
+<div class="ticket tputra" data-price="100000" data-ticket="5K PUTRA"><div class="ticket-dist">5K</div><div class="ticket-cat">PUTRA</div><div class="ticket-price">Rp 100.000</div></div>
+<div class="ticket tputri" data-price="100000" data-ticket="5K PUTRI"><div class="ticket-dist">5K</div><div class="ticket-cat">PUTRI</div><div class="ticket-price">Rp 100.000</div></div>
+</div>
+<div class="input-group"><label><i class="fas fa-tshirt" style="color:var(--pink);margin-right:8px"></i> Size Chart Jersey</label><div class="size-wrapper"><img src="sizechart.png" alt="Size Chart"><img src="sizechart.png" alt="Size Chart"></div></div>
+<div class="input-group"><label><i class="fas fa-ruler" style="color:var(--pink);margin-right:8px"></i> Size Jersey</label><select id="size"><option value="">Pilih Size Jersey</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>XXXL</option></select></div>
+<div class="input-group"><label><i class="fas fa-phone-volume" style="color:var(--pink);margin-right:8px"></i> Nama Kontak Darurat</label><input type="text" id="daruratNama" placeholder="Nama kontak darurat"></div>
+<div class="input-group"><label><i class="fas fa-phone" style="color:var(--pink);margin-right:8px"></i> Nomor Kontak Darurat</label><input type="text" id="daruratNo" placeholder="Contoh: 081234567890"></div>
+<div class="input-group"><label><i class="fas fa-tag" style="color:var(--pink);margin-right:8px"></i> Nama BIB</label><input type="text" id="bib" placeholder="Nama di BIB (maks 12 karakter)" maxlength="12"></div>
+<div class="statement"><div class="checkbox"><input type="checkbox" id="agree"><label for="agree">Saya menyatakan data yang diberikan <b>valid</b> dan menyetujui syarat & ketentuan <b>FUN RUN 5K KARO 2026</b>, termasuk ketentuan pembayaran <b>tidak dapat dikembalikan (non-refundable)</b>.</label></div></div>
+<div class="buttons"><button class="back-btn" onclick="backTo1()"><i class="fas fa-arrow-left"></i> Kembali</button><button class="pay-btn" id="payBtn" disabled><i class="fas fa-credit-card"></i> Pembayaran</button></div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="card hidden" id="page3">
+<div class="section-badge"><i class="fas fa-qrcode"></i> PEMBAYARAN</div>
+<h2>PEMBAYARAN</h2>
+<div id="summary" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:25px;line-height:2;margin-bottom:25px;font-size:14px;color:rgba(255,255,255,.7)"></div>
+<div class="payment-timer-wrap">
+<div class="payment-timer-label"><i class="fas fa-hourglass-half"></i> BATAS WAKTU PEMBAYARAN</div>
+<div class="payment-timer-value" id="payTimerValue">15:00</div>
+<div class="payment-timer-warn">Pembayaran harus diselesaikan sebelum timer habis — non-refundable</div>
+</div>
+<div class="qris-wrap"><div class="qris-label"><i class="fas fa-qrcode"></i> SCAN QRIS BERIKUT</div><img src="qris.png" class="qris-img" alt="QRIS Pembayaran"></div>
+<div class="total-section"><div class="total-label"><i class="fas fa-coins"></i> JUMLAH PEMBAYARAN</div><div class="total-amount" id="totalPrice">Rp. 0</div></div>
+<div class="payment-guide"><b><i class="fas fa-list-ol" style="color:var(--pink)"></i> Petunjuk Pembayaran :</b><br><br>1. Pastikan nominal sesuai kategori.<br>2. Scan QRIS di atas menggunakan E-Wallet / Mobile Banking.<br>3. Lakukan pembayaran hingga berhasil — <b>non-refundable</b>.<br>4. Upload bukti pembayaran.<br>5. Sistem akan memverifikasi otomatis.</div>
+<div class="upload-section"><div class="upload-label"><i class="fas fa-cloud-upload-alt"></i> Upload Bukti Pembayaran</div><div class="file-input-wrap" id="fileInputWrap"><i class="fas fa-image"></i><div class="upload-text">Klik untuk upload<br><b>JPG, PNG, PDF</b> — Maks 5MB</div><input type="file" id="proof" accept="image/*,.pdf"></div><div class="file-name" id="fileName"><i class="fas fa-check-circle"></i> <span id="fileNameText"></span></div></div>
+<div class="statement" style="margin-bottom:25px"><div class="checkbox"><input type="checkbox" id="paidCheck"><label for="paidCheck">Saya telah melakukan pembayaran sesuai nominal kategori dan memahami bahwa pembayaran <b>tidak dapat dikembalikan (non-refundable)</b>.</label></div></div>
+<div class="buttons"><div></div><button class="confirm-btn" id="confirmBtn" disabled><i class="fas fa-check-double"></i> Konfirmasi Pembayaran</button></div>
+</div>
+</div>
+
+<script>
+var selectedTicket="",selectedPrice=0,formTimerSeconds=600,payTimerSeconds=900,payTimerInterval=null;
+window.addEventListener('load',function(){setTimeout(function(){document.getElementById('initLoader').classList.add('hidden')},1800)});
+var formTimerEl=document.getElementById("formTimer");
+var formCD=setInterval(function(){formTimerSeconds--;var m=Math.floor(formTimerSeconds/60);var s=formTimerSeconds%60;formTimerEl.innerHTML=String(m).padStart(2,'0')+":"+String(s).padStart(2,'0');
+if(formTimerSeconds<=0){clearInterval(formCD);if(payTimerInterval)clearInterval(payTimerInterval);document.getElementById("mainContainer").style.display="none";document.getElementById("failPage").style.display="flex"}},1000);
+
+document.querySelectorAll('input[name="gender"]').forEach(function(r){r.addEventListener('change',function(){document.getElementById('genderL').classList.remove('active-gender');document.getElementById('genderP').classList.remove('active-gender');if(this.value==='Laki-laki'){document.getElementById('genderL').classList.add('active-gender')}else{document.getElementById('genderP').classList.add('active-gender')}validatePage1()})});
+
+function validatePage1(){var n=document.getElementById("nama").value.trim(),t=document.getElementById("ttl").value.trim(),g=document.querySelector('input[name="gender"]:checked'),i=document.getElementById("identitas").value.trim(),e=document.getElementById("email").value.trim(),w=document.getElementById("wa").value.trim(),a=document.getElementById("alamat").value.trim();document.getElementById("next1").disabled=!(n&&t&&g&&i&&e&&w&&a)}
+document.querySelectorAll("#page1 input,#page1 textarea").forEach(function(el){el.addEventListener("input",validatePage1)});
+document.getElementById("next1").addEventListener("click",function(){showStepLoading("Memproses Data Peserta...",1800,function(){document.getElementById("page1").classList.add("hidden");document.getElementById("page2").classList.remove("hidden")})});
+function backTo1(){document.getElementById("page2").classList.add("hidden");document.getElementById("page1").classList.remove("hidden")}
+
+document.querySelectorAll(".ticket").forEach(function(t){t.addEventListener("click",function(){document.querySelectorAll(".ticket").forEach(function(x){x.classList.remove("active")});t.classList.add("active");selectedTicket=t.dataset.ticket;selectedPrice=parseInt(t.dataset.price);validatePage2()})});
+
+function validatePage2(){var sz=document.getElementById("size").value,dn=document.getElementById("daruratNama").value.trim(),no=document.getElementById("daruratNo").value.trim(),bib=document.getElementById("bib").value.trim(),ag=document.getElementById("agree").checked;document.getElementById("payBtn").disabled=!(selectedTicket&&sz&&dn&&no&&bib&&ag)}
+document.querySelectorAll("#page2 input,#page2 select,#page2 textarea").forEach(function(el){el.addEventListener("input",validatePage2);el.addEventListener("change",validatePage2)});
+document.getElementById("agree").addEventListener("change",validatePage2);
+
+document.getElementById("payBtn").addEventListener("click",function(){showStepLoading("Mempersiapkan Pembayaran...",3000,function(){document.getElementById("page2").classList.add("hidden");document.getElementById("page3").classList.remove("hidden");
+var gEl=document.querySelector('input[name="gender"]:checked');
+document.getElementById("summary").innerHTML="<b style='color:var(--pink)'>Nama :</b> "+document.getElementById("nama").value+"<br><b style='color:var(--pink)'>TTL :</b> "+document.getElementById("ttl").value+"<br><b style='color:var(--pink)'>Gender :</b> "+(gEl?gEl.value:"")+"<br><b style='color:var(--pink)'>NIK :</b> "+document.getElementById("identitas").value+"<br><b style='color:var(--pink)'>Email :</b> "+document.getElementById("email").value+"<br><b style='color:var(--pink)'>WhatsApp :</b> "+document.getElementById("wa").value+"<br><b style='color:var(--pink)'>Kategori :</b> "+selectedTicket+"<br><b style='color:var(--pink)'>Size :</b> "+document.getElementById("size").value+"<br><b style='color:var(--pink)'>BIB :</b> "+document.getElementById("bib").value+"<br><b style='color:var(--pink)'>Darurat :</b> "+document.getElementById("daruratNama").value+" — "+document.getElementById("daruratNo").value;
+document.getElementById("totalPrice").innerHTML="Rp. "+Number(selectedPrice).toLocaleString('id-ID');
+payTimerSeconds=900;startPayTimer()})});
+
+function startPayTimer(){if(payTimerInterval)clearInterval(payTimerInterval);payTimerInterval=setInterval(function(){payTimerSeconds--;var m=Math.floor(payTimerSeconds/60);var s=payTimerSeconds%60;document.getElementById("payTimerValue").innerHTML=String(m).padStart(2,'0')+":"+String(s).padStart(2,'0');
+if(payTimerSeconds<=300){document.getElementById("payTimerValue").style.color='#ff8a00'}
+if(payTimerSeconds<=120){document.getElementById("payTimerValue").style.color='#ff2e63'}
+if(payTimerSeconds<=0){clearInterval(payTimerInterval);clearInterval(formCD);document.getElementById("mainContainer").style.display="none";document.getElementById("failPage").style.display="flex"}},1000)}
+
+document.getElementById("proof").addEventListener("change",function(){if(this.files&&this.files.length>0){document.getElementById("fileNameText").textContent=this.files[0].name;document.getElementById("fileName").classList.add("show");document.getElementById("fileInputWrap").style.borderColor="var(--pink)";document.getElementById("fileInputWrap").style.background="rgba(255,107,157,.08)"}else{document.getElementById("fileName").classList.remove("show");document.getElementById("fileInputWrap").style.borderColor="rgba(255,255,255,.1)";document.getElementById("fileInputWrap").style.background="rgba(255,255,255,.08)"}validatePage3()});
+
+function validatePage3(){var p=document.getElementById("proof").value,c=document.getElementById("paidCheck").checked;document.getElementById("confirmBtn").disabled=!(p&&c)}
+document.getElementById("paidCheck").addEventListener("change",validatePage3);
+
+document.getElementById("confirmBtn").addEventListener("click",function(){startConfirmLoading()});
+
+function startConfirmLoading(){
+var gEl=document.querySelector('input[name="gender"]:checked'),now=new Date(),ds=now.getFullYear().toString().slice(-2)+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0'),rs=Math.random().toString(36).substring(2,8).toUpperCase(),regId="KFR"+ds+"-"+rs;
+var fullDate=now.toLocaleDateString('id-ID',{weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});
+var data={regId:regId,regDate:fullDate,nama:document.getElementById("nama").value,ttl:document.getElementById("ttl").value,gender:gEl?gEl.value:"",identitas:document.getElementById("identitas").value,email:document.getElementById("email").value,wa:document.getElementById("wa").value,alamat:document.getElementById("alamat").value,kategori:selectedTicket,size:document.getElementById("size").value,bib:document.getElementById("bib").value,daruratNama:document.getElementById("daruratNama").value,daruratNo:document.getElementById("daruratNo").value,price:selectedPrice};
+localStorage.setItem('funRunKaro2026_registration',JSON.stringify(data));
+
+var overlay=document.getElementById("confirmOverlay"),bar=document.getElementById("confirmBar"),percentEl=document.getElementById("confirmPercent"),stepsEl=document.getElementById("confirmSteps");
+overlay.classList.add("active");bar.style.width="0%";percentEl.textContent="0%";stepsEl.textContent="Memverifikasi bukti pembayaran...";
+var duration=180000,progress=0,stepMs=100,inc=(stepMs/duration)*100;
+var stepMsgs=["Memverifikasi bukti pembayaran...","Menghubungkan ke server...","Validasi data peserta...","Cross-check nominal...","Konfirmasi pembayaran...","Memproses registrasi...","Generating BIB number...","Menyiapkan e-certificate...","Finalisasi pendaftaran...","Preparing confirmation...","Redirecting to success page..."];
+var cur=0,stepInt=duration/stepMsgs.length;var sT=setInterval(function(){cur++;if(cur<stepMsgs.length){stepsEl.textContent=stepMsgs[cur]}},stepInt);
+var pT=setInterval(function(){progress+=inc;if(progress>100)progress=100;bar.style.width=progress+"%";percentEl.textContent=Math.round(progress)+"%";
+if(progress>=100){clearInterval(pT);clearInterval(sT);stepsEl.textContent="Redirecting...";setTimeout(function(){window.location.href="success.html"},800)}},stepMs)}
+
+function showStepLoading(text,duration,callback){
+var overlay=document.getElementById("stepOverlay"),bar=document.getElementById("stepBar"),textEl=document.getElementById("stepText");
+overlay.classList.add("active");bar.style.width="0%";textEl.textContent=text;
+var progress=0,stepMs=30,inc=(stepMs/duration)*100;
+var pT=setInterval(function(){progress+=inc;if(progress>100)progress=100;bar.style.width=progress+"%";
+if(progress>=100){clearInterval(pT);overlay.classList.remove("active");callback()}},stepMs)}
+</script>
+</body>
+</html>
